@@ -4,8 +4,10 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Navigation
-import Model.Params exposing (Params)
+import Model.Params as Params exposing (Params)
 import Message as Msg exposing (Msg)
+import Web.Routing.Router as Router exposing (routing)
+import Web.View.ViewHelper as ViewHelper exposing (..)
 
 -- main
 
@@ -23,20 +25,29 @@ main =
 
 init : Navigation.Location -> (Params, Cmd Msg)
 init location =
-  ({name = "test"}, Cmd.none)
+  ((Params.new location), Cmd.none)
 
 -- update 
 
 update : Msg -> Params -> (Params, Cmd Msg)
 update msg params =
-  (params, Cmd.none)
+  case msg of
+    Msg.NewUrl url ->
+      (params, Navigation.newUrl url)
+    Msg.UrlChange location ->
+      Router.routing location params
+    _ ->
+      (params, Cmd.none)
 
 -- view
 
 view : Params -> Html Msg
 view params =
   div []
-    [ text "test" ]
+    [ ViewHelper.currentPagePath params.currentPagePath
+    , ViewHelper.allLinks
+    , ViewHelper.locationHistory params.locationHistory
+    ]
 
 -- subscriptions
 
