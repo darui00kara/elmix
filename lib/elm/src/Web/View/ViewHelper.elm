@@ -40,3 +40,8 @@ locationHistory history =
 renderLocation : Navigation.Location -> Html Msg
 renderLocation location =
   li [] [ text (location.pathname ++ location.hash) ]
+
+renderImg : Html Msg
+renderImg =
+  div []
+    [ img [ src "/images/sample.jpg" ] [] ]

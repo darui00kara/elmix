@@ -9961,6 +9961,21 @@ var _user$project$Web_Routing_Router$routing = F2(
 		};
 	});
 
+var _user$project$Web_View_ViewHelper$renderImg = A2(
+	_elm_lang$html$Html$div,
+	{ctor: '[]'},
+	{
+		ctor: '::',
+		_0: A2(
+			_elm_lang$html$Html$img,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$src('/images/sample.jpg'),
+				_1: {ctor: '[]'}
+			},
+			{ctor: '[]'}),
+		_1: {ctor: '[]'}
+	});
 var _user$project$Web_View_ViewHelper$renderLocation = function (location) {
 	return A2(
 		_elm_lang$html$Html$li,
@@ -10112,7 +10127,11 @@ var _user$project$Web$view = function (params) {
 				_1: {
 					ctor: '::',
 					_0: _user$project$Web_View_ViewHelper$locationHistory(params.locationHistory),
-					_1: {ctor: '[]'}
+					_1: {
+						ctor: '::',
+						_0: _user$project$Web_View_ViewHelper$renderImg,
+						_1: {ctor: '[]'}
+					}
 				}
 			}
 		});

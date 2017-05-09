@@ -1,8 +1,6 @@
 module Web exposing (..)
 
-import Html exposing (..)
-import Html.Attributes exposing (..)
-import Html.Events exposing (..)
+import Html exposing (Html, div)
 import Navigation
 import Model.Params as Params exposing (Params)
 import Message as Msg exposing (Msg)
@@ -47,6 +45,7 @@ view params =
     [ ViewHelper.currentPagePath params.currentPagePath
     , ViewHelper.allLinks
     , ViewHelper.locationHistory params.locationHistory
+    , ViewHelper.renderImg
     ]
 
 -- subscriptions
