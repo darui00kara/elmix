@@ -18,7 +18,7 @@ allLinks =
 
 renderLink : String -> Html Msg
 renderLink url =
-  li [] [ button [ onClick (Msg.NewUrl url) ] [ text url ] ]
+  li [] [ button [ onClick (Msg.NewUrl url), class "btn btn-primary btn-xs" ] [ text url ] ]
 
 currentPagePath : Maybe Route.PagePath -> Html Msg
 currentPagePath maybePagePath =

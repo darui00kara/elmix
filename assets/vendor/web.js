@@ -10071,7 +10071,11 @@ var _user$project$Web_View_ViewHelper$renderLink = function (url) {
 					ctor: '::',
 					_0: _elm_lang$html$Html_Events$onClick(
 						_user$project$Message$NewUrl(url)),
-					_1: {ctor: '[]'}
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('btn btn-primary btn-xs'),
+						_1: {ctor: '[]'}
+					}
 				},
 				{
 					ctor: '::',
