@@ -6,7 +6,7 @@ import Model.Params as Params exposing (Params)
 import Message as Msg exposing (Msg)
 import Web.Routing.Router as Router exposing (routing)
 import Web.View.LayoutView as LayoutView exposing (render)
-import Web.View.HelpersView as HelpersView exposing (..)
+import Web.View.PageView as Render exposing (home)
 
 -- main
 
@@ -23,7 +23,7 @@ main =
 
 init : Navigation.Location -> (Params, Cmd Msg)
 init location =
-  ((Params.new location), Cmd.none)
+  ((Params.new location Render.home), Cmd.none)
 
 -- update 
 
@@ -41,7 +41,7 @@ update msg params =
 
 view : Params -> Html Msg
 view params =
-  LayoutView.render params HelpersView.renderImg
+  params.render |> LayoutView.render params
 
 -- subscriptions
 

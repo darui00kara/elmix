@@ -9885,6 +9885,17 @@ var _user$project$Message$UrlChange = function (a) {
 	return {ctor: 'UrlChange', _0: a};
 };
 
+var _user$project$Web_Model_Page$Page = function (a) {
+	return {message: a};
+};
+
+var _user$project$Model_Models$new = {
+	page: {message: 'none'}
+};
+var _user$project$Model_Models$Models = function (a) {
+	return {page: a};
+};
+
 var _user$project$Web_Routing_Route$Contact = {ctor: 'Contact'};
 var _user$project$Web_Routing_Route$Help = {ctor: 'Help'};
 var _user$project$Web_Routing_Route$About = {ctor: 'About'};
@@ -9962,8 +9973,20 @@ var _user$project$Web_Routing_Route$toString = function (maybePagePath) {
 	}
 };
 
+var _user$project$Model_Params$updateRender = F2(
+	function (update, params) {
+		return _elm_lang$core$Native_Utils.update(
+			params,
+			{render: update});
+	});
+var _user$project$Model_Params$updateModels = F2(
+	function (update, params) {
+		return _elm_lang$core$Native_Utils.update(
+			params,
+			{models: update});
+	});
 var _user$project$Model_Params$updatePath = F2(
-	function (params, location) {
+	function (location, params) {
 		return _elm_lang$core$Native_Utils.update(
 			params,
 			{
@@ -9971,38 +9994,124 @@ var _user$project$Model_Params$updatePath = F2(
 				locationHistory: {ctor: '::', _0: location, _1: params.locationHistory}
 			});
 	});
-var _user$project$Model_Params$Params = F2(
-	function (a, b) {
-		return {currentPagePath: a, locationHistory: b};
+var _user$project$Model_Params$Params = F4(
+	function (a, b, c, d) {
+		return {currentPagePath: a, locationHistory: b, models: c, render: d};
 	});
-var _user$project$Model_Params$new = function (location) {
+var _user$project$Model_Params$new = F2(
+	function (location, startRender) {
+		return A4(
+			_user$project$Model_Params$Params,
+			_user$project$Web_Routing_Route$build(location),
+			{
+				ctor: '::',
+				_0: location,
+				_1: {ctor: '[]'}
+			},
+			_user$project$Model_Models$new,
+			startRender);
+	});
+
+var _user$project$Web_View_PageView$contact = function (models) {
 	return A2(
-		_user$project$Model_Params$Params,
-		_user$project$Web_Routing_Route$build(location),
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
 		{
 			ctor: '::',
-			_0: location,
+			_0: _elm_lang$html$Html$text('Contact'),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Web_View_PageView$help = function (models) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text('Help'),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Web_View_PageView$about = function (models) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text('About'),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Web_View_PageView$home = function (models) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text('Home'),
+			_1: {ctor: '[]'}
+		});
+};
+
+var _user$project$Web_Controller_PageController$contact = function (models) {
+	return {ctor: '_Tuple3', _0: models, _1: _elm_lang$core$Platform_Cmd$none, _2: _user$project$Web_View_PageView$contact};
+};
+var _user$project$Web_Controller_PageController$help = function (models) {
+	return {ctor: '_Tuple3', _0: models, _1: _elm_lang$core$Platform_Cmd$none, _2: _user$project$Web_View_PageView$help};
+};
+var _user$project$Web_Controller_PageController$about = function (models) {
+	return {ctor: '_Tuple3', _0: models, _1: _elm_lang$core$Platform_Cmd$none, _2: _user$project$Web_View_PageView$about};
+};
+var _user$project$Web_Controller_PageController$home = function (models) {
+	return {ctor: '_Tuple3', _0: models, _1: _elm_lang$core$Platform_Cmd$none, _2: _user$project$Web_View_PageView$home};
+};
+
+var _user$project$Web_View_ErrorView$notFound = function (_p0) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text('Page not found'),
 			_1: {ctor: '[]'}
 		});
 };
 
 var _user$project$Web_Routing_Router$match = F2(
-	function (params, path) {
+	function (models, path) {
 		var _p0 = path;
-		return {ctor: '_Tuple2', _0: params, _1: _elm_lang$core$Platform_Cmd$none};
+		switch (_p0.ctor) {
+			case 'Home':
+				return _user$project$Web_Controller_PageController$home(models);
+			case 'About':
+				return _user$project$Web_Controller_PageController$about(models);
+			case 'Help':
+				return _user$project$Web_Controller_PageController$help(models);
+			case 'Contact':
+				return _user$project$Web_Controller_PageController$contact(models);
+			default:
+				return {ctor: '_Tuple3', _0: models, _1: _elm_lang$core$Platform_Cmd$none, _2: _user$project$Web_View_ErrorView$notFound};
+		}
 	});
 var _user$project$Web_Routing_Router$routing = F2(
 	function (location, params) {
 		var _p1 = A2(
 			_user$project$Web_Routing_Router$match,
-			params,
+			params.models,
 			_user$project$Web_Routing_Route$take(
 				_user$project$Web_Routing_Route$build(location)));
-		var updateParams = _p1._0;
+		var models = _p1._0;
 		var cmd = _p1._1;
+		var render = _p1._2;
 		return {
 			ctor: '_Tuple2',
-			_0: A2(_user$project$Model_Params$updatePath, updateParams, location),
+			_0: A2(
+				_user$project$Model_Params$updateRender,
+				render,
+				A2(
+					_user$project$Model_Params$updateModels,
+					models,
+					A2(_user$project$Model_Params$updatePath, location, params))),
 			_1: cmd
 		};
 	});
@@ -10320,7 +10429,7 @@ var _user$project$Web_View_LayoutView$render = F2(
 						},
 						{
 							ctor: '::',
-							_0: mainRender,
+							_0: mainRender(params.models),
 							_1: {ctor: '[]'}
 						}),
 					_1: {
@@ -10336,7 +10445,7 @@ var _user$project$Web$subscriptions = function (params) {
 	return _elm_lang$core$Platform_Sub$none;
 };
 var _user$project$Web$view = function (params) {
-	return A2(_user$project$Web_View_LayoutView$render, params, _user$project$Web_View_HelpersView$renderImg);
+	return A2(_user$project$Web_View_LayoutView$render, params, params.render);
 };
 var _user$project$Web$update = F2(
 	function (msg, params) {
@@ -10357,7 +10466,7 @@ var _user$project$Web$update = F2(
 var _user$project$Web$init = function (location) {
 	return {
 		ctor: '_Tuple2',
-		_0: _user$project$Model_Params$new(location),
+		_0: A2(_user$project$Model_Params$new, location, _user$project$Web_View_PageView$home),
 		_1: _elm_lang$core$Platform_Cmd$none
 	};
 };

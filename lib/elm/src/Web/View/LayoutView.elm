@@ -5,15 +5,16 @@ import Html.Attributes exposing (..)
 
 import Message as Msg exposing (Msg)
 import Model.Params exposing (Params)
+import Model.Models exposing (Models)
 import Web.View.CustomAttributes exposing (role)
 import Web.View.HelpersView as Helpers exposing (debug)
 
-render : Params -> Html Msg -> Html Msg
+render : Params -> (Models -> Html Msg) -> Html Msg
 render params mainRender =
   div [ class "container" ]
     [ renderHeader params
     , main_ [ role "main" ]
-        [ mainRender ]
+        [ mainRender params.models ]
     , renderFooter params
     ]
 

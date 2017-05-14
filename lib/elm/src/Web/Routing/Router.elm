@@ -1,25 +1,36 @@
 module Web.Routing.Router exposing (routing)
 
 import Html exposing (Html)
-import Navigation
+import Navigation exposing (Location)
 
 import Message exposing (Msg)
-import Model.Params as Params exposing (Params)
-import Web.Routing.Route as Route
+import Model.Params as Params exposing (Params, updatePath, updateModels, updateRender)
+import Model.Models exposing (Models)
+import Web.Routing.Route as Route exposing (PagePath, PagePath(..), build, take)
+import Web.Controller.PageController as PageController
+import Web.View.ErrorView as ErrorView exposing (notFound)
 
-routing : Navigation.Location -> Params -> (Params, Cmd Msg)
+routing : Location -> Params -> (Params, Cmd Msg)
 routing location params =
   let
-    (updateParams, cmd) = location
-                          |> Route.build
-                          |> Route.take
-                          |> match params
+    (models, cmd, render) = location
+                            |> Route.build
+                            |> Route.take
+                            |> match params.models
   in
-    ( ( location |> Params.updatePath updateParams )
+    ( ( params
+        |> Params.updatePath   location
+        |> Params.updateModels models
+        |> Params.updateRender render
+      )
     , cmd
     )
 
-match : Params -> Route.PagePath -> (Params, Cmd Msg)
-match params path =
+match : Models -> PagePath -> (Models, Cmd Msg, (Models -> Html Msg))
+match models path =
   case path of
-    _ -> (params, Cmd.none)
+    Home    -> PageController.home    models
+    About   -> PageController.about   models
+    Help    -> PageController.help    models
+    Contact -> PageController.contact models
+    _ -> (models, Cmd.none, ErrorView.notFound)
