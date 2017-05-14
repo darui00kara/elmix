@@ -23,7 +23,7 @@ main =
 
 init : Navigation.Location -> (Params, Cmd Msg)
 init location =
-  ((Params.new location Render.home), Cmd.none)
+  (Params.new location Render.home) |> Router.routing location
 
 -- update 
 

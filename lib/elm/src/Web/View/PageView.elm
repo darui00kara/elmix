@@ -5,9 +5,14 @@ import Html exposing (..)
 import Message as Msg exposing (Msg)
 import Model.Models exposing (Models)
 
+import Web.View.HelpersView as Helpers exposing (renderImg)
+
 home : Models -> Html Msg
 home models =
-  div [] [ text "Home" ]
+  div []
+    [ text "Home"
+    , Helpers.renderImg "/images/sample.jpg"
+    ]
 
 about : Models -> Html Msg
 about models =

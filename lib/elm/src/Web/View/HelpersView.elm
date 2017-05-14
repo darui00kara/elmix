@@ -57,7 +57,7 @@ renderLocation : Navigation.Location -> Html Msg
 renderLocation location =
   li [] [ text (location.pathname ++ location.hash) ]
 
-renderImg : Html Msg
-renderImg =
+renderImg : String -> Html Msg
+renderImg path =
   div []
-    [ img [ src "/images/sample.jpg", height 480, width 320 ] [] ]
+    [ img [ src path, height 480, width 320 ] [] ]
