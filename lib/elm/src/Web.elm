@@ -5,7 +5,8 @@ import Navigation
 import Model.Params as Params exposing (Params)
 import Message as Msg exposing (Msg)
 import Web.Routing.Router as Router exposing (routing)
-import Web.View.ViewHelper as ViewHelper exposing (..)
+import Web.View.LayoutView as LayoutView exposing (render)
+import Web.View.HelpersView as HelpersView exposing (..)
 
 -- main
 
@@ -17,7 +18,6 @@ main =
     , update = update
     , subscriptions = subscriptions
     }
-
 
 -- init
 
@@ -41,12 +41,7 @@ update msg params =
 
 view : Params -> Html Msg
 view params =
-  div []
-    [ ViewHelper.currentPagePath params.currentPagePath
-    , ViewHelper.allLinks
-    , ViewHelper.locationHistory params.locationHistory
-    , ViewHelper.renderImg
-    ]
+  LayoutView.render params HelpersView.renderImg
 
 -- subscriptions
 

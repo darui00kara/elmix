@@ -9885,12 +9885,51 @@ var _user$project$Message$UrlChange = function (a) {
 	return {ctor: 'UrlChange', _0: a};
 };
 
+var _user$project$Web_Routing_Route$Contact = {ctor: 'Contact'};
+var _user$project$Web_Routing_Route$Help = {ctor: 'Help'};
+var _user$project$Web_Routing_Route$About = {ctor: 'About'};
 var _user$project$Web_Routing_Route$Home = {ctor: 'Home'};
 var _user$project$Web_Routing_Route$route = _evancz$url_parser$UrlParser$oneOf(
 	{
 		ctor: '::',
-		_0: A2(_evancz$url_parser$UrlParser$map, _user$project$Web_Routing_Route$Home, _evancz$url_parser$UrlParser$top),
-		_1: {ctor: '[]'}
+		_0: A2(
+			_evancz$url_parser$UrlParser$map,
+			_user$project$Web_Routing_Route$Home,
+			A2(
+				_evancz$url_parser$UrlParser_ops['</>'],
+				_evancz$url_parser$UrlParser$s('page'),
+				_evancz$url_parser$UrlParser$s('home'))),
+		_1: {
+			ctor: '::',
+			_0: A2(
+				_evancz$url_parser$UrlParser$map,
+				_user$project$Web_Routing_Route$About,
+				A2(
+					_evancz$url_parser$UrlParser_ops['</>'],
+					_evancz$url_parser$UrlParser$s('page'),
+					_evancz$url_parser$UrlParser$s('about'))),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_evancz$url_parser$UrlParser$map,
+					_user$project$Web_Routing_Route$Help,
+					A2(
+						_evancz$url_parser$UrlParser_ops['</>'],
+						_evancz$url_parser$UrlParser$s('page'),
+						_evancz$url_parser$UrlParser$s('help'))),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_evancz$url_parser$UrlParser$map,
+						_user$project$Web_Routing_Route$Contact,
+						A2(
+							_evancz$url_parser$UrlParser_ops['</>'],
+							_evancz$url_parser$UrlParser$s('page'),
+							_evancz$url_parser$UrlParser$s('contact'))),
+					_1: {ctor: '[]'}
+				}
+			}
+		}
 	});
 var _user$project$Web_Routing_Route$build = function (location) {
 	return A2(_evancz$url_parser$UrlParser$parsePath, _user$project$Web_Routing_Route$route, location);
@@ -9909,10 +9948,17 @@ var _user$project$Web_Routing_Route$isSuccess = function (maybePagePath) {
 };
 var _user$project$Web_Routing_Route$toString = function (maybePagePath) {
 	var _p1 = _user$project$Web_Routing_Route$take(maybePagePath);
-	if (_p1.ctor === 'NotFound') {
-		return 'NotFound';
-	} else {
-		return 'Home';
+	switch (_p1.ctor) {
+		case 'NotFound':
+			return 'NotFound';
+		case 'Home':
+			return 'Home';
+		case 'About':
+			return 'About';
+		case 'Help':
+			return 'Help';
+		default:
+			return 'Contact';
 	}
 };
 
@@ -9961,7 +10007,11 @@ var _user$project$Web_Routing_Router$routing = F2(
 		};
 	});
 
-var _user$project$Web_View_ViewHelper$renderImg = A2(
+var _user$project$Web_View_CustomAttributes$role = function (name) {
+	return A2(_elm_lang$html$Html_Attributes$attribute, 'role', name);
+};
+
+var _user$project$Web_View_HelpersView$renderImg = A2(
 	_elm_lang$html$Html$div,
 	{ctor: '[]'},
 	{
@@ -9971,12 +10021,20 @@ var _user$project$Web_View_ViewHelper$renderImg = A2(
 			{
 				ctor: '::',
 				_0: _elm_lang$html$Html_Attributes$src('/images/sample.jpg'),
-				_1: {ctor: '[]'}
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$height(480),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$width(320),
+						_1: {ctor: '[]'}
+					}
+				}
 			},
 			{ctor: '[]'}),
 		_1: {ctor: '[]'}
 	});
-var _user$project$Web_View_ViewHelper$renderLocation = function (location) {
+var _user$project$Web_View_HelpersView$renderLocation = function (location) {
 	return A2(
 		_elm_lang$html$Html$li,
 		{ctor: '[]'},
@@ -9987,14 +10045,14 @@ var _user$project$Web_View_ViewHelper$renderLocation = function (location) {
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$Web_View_ViewHelper$locationHistory = function (history) {
+var _user$project$Web_View_HelpersView$locationHistory = function (history) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$h1,
+				_elm_lang$html$Html$h2,
 				{ctor: '[]'},
 				{
 					ctor: '::',
@@ -10006,19 +10064,31 @@ var _user$project$Web_View_ViewHelper$locationHistory = function (history) {
 				_0: A2(
 					_elm_lang$html$Html$ul,
 					{ctor: '[]'},
-					A2(_elm_lang$core$List$map, _user$project$Web_View_ViewHelper$renderLocation, history)),
+					A2(_elm_lang$core$List$map, _user$project$Web_View_HelpersView$renderLocation, history)),
 				_1: {ctor: '[]'}
 			}
 		});
 };
-var _user$project$Web_View_ViewHelper$currentPagePath = function (maybePagePath) {
+var _user$project$Web_View_HelpersView$toRenderText = function (maybePagePath) {
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		_user$project$Web_Routing_Route$toString(maybePagePath),
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			'(',
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_user$project$Web_Routing_Route$isSuccess(maybePagePath),
+				')')));
+};
+var _user$project$Web_View_HelpersView$currentPagePath = function (maybePagePath) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$h1,
+				_elm_lang$html$Html$h2,
 				{ctor: '[]'},
 				{
 					ctor: '::',
@@ -10038,28 +10108,16 @@ var _user$project$Web_View_ViewHelper$currentPagePath = function (maybePagePath)
 							{
 								ctor: '::',
 								_0: _elm_lang$html$Html$text(
-									_user$project$Web_Routing_Route$toString(maybePagePath)),
+									_user$project$Web_View_HelpersView$toRenderText(maybePagePath)),
 								_1: {ctor: '[]'}
 							}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$li,
-								{ctor: '[]'},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text(
-										_user$project$Web_Routing_Route$isSuccess(maybePagePath)),
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						}
+						_1: {ctor: '[]'}
 					}),
 				_1: {ctor: '[]'}
 			}
 		});
 };
-var _user$project$Web_View_ViewHelper$renderLink = function (url) {
+var _user$project$Web_View_HelpersView$link = function (url) {
 	return A2(
 		_elm_lang$html$Html$li,
 		{ctor: '[]'},
@@ -10073,7 +10131,7 @@ var _user$project$Web_View_ViewHelper$renderLink = function (url) {
 						_user$project$Message$NewUrl(url)),
 					_1: {
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('btn btn-primary btn-xs'),
+						_0: _elm_lang$html$Html_Attributes$class('btn btn-default btn-xs'),
 						_1: {ctor: '[]'}
 					}
 				},
@@ -10085,17 +10143,17 @@ var _user$project$Web_View_ViewHelper$renderLink = function (url) {
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$Web_View_ViewHelper$allLinks = A2(
+var _user$project$Web_View_HelpersView$allLinks = A2(
 	_elm_lang$html$Html$div,
 	{ctor: '[]'},
 	{
 		ctor: '::',
 		_0: A2(
-			_elm_lang$html$Html$h1,
+			_elm_lang$html$Html$h2,
 			{ctor: '[]'},
 			{
 				ctor: '::',
-				_0: _elm_lang$html$Html$text('Page links'),
+				_0: _elm_lang$html$Html$text('All Page Links'),
 				_1: {ctor: '[]'}
 			}),
 		_1: {
@@ -10105,40 +10163,180 @@ var _user$project$Web_View_ViewHelper$allLinks = A2(
 				{ctor: '[]'},
 				A2(
 					_elm_lang$core$List$map,
-					_user$project$Web_View_ViewHelper$renderLink,
+					_user$project$Web_View_HelpersView$link,
 					{
 						ctor: '::',
-						_0: '/',
-						_1: {ctor: '[]'}
+						_0: '/page/home',
+						_1: {
+							ctor: '::',
+							_0: '/page/about',
+							_1: {
+								ctor: '::',
+								_0: '/page/help',
+								_1: {
+									ctor: '::',
+									_0: '/page/contact',
+									_1: {ctor: '[]'}
+								}
+							}
+						}
 					})),
 			_1: {ctor: '[]'}
 		}
+	});
+var _user$project$Web_View_HelpersView$debug = function (params) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('container'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: _user$project$Web_View_HelpersView$allLinks,
+			_1: {
+				ctor: '::',
+				_0: _user$project$Web_View_HelpersView$currentPagePath(params.currentPagePath),
+				_1: {
+					ctor: '::',
+					_0: _user$project$Web_View_HelpersView$locationHistory(params.locationHistory),
+					_1: {ctor: '[]'}
+				}
+			}
+		});
+};
+
+var _user$project$Web_View_LayoutView$renderFooter = function (params) {
+	return A2(
+		_elm_lang$html$Html$footer,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('footer'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('footer'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: _user$project$Web_View_HelpersView$debug(params),
+				_1: {ctor: '[]'}
+			}
+		});
+};
+var _user$project$Web_View_LayoutView$renderHeader = function (params) {
+	return A2(
+		_elm_lang$html$Html$header,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('header'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$nav,
+				{
+					ctor: '::',
+					_0: _user$project$Web_View_CustomAttributes$role('navigation'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$ul,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('nav nav-pills pull-right'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$li,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$a,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$href('http://www.phoenixframework.org/docs'),
+											_1: {ctor: '[]'}
+										},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text('Get Started'),
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$span,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('logo'),
+						_1: {ctor: '[]'}
+					},
+					{ctor: '[]'}),
+				_1: {ctor: '[]'}
+			}
+		});
+};
+var _user$project$Web_View_LayoutView$render = F2(
+	function (params, mainRender) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('container'),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: _user$project$Web_View_LayoutView$renderHeader(params),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$main_,
+						{
+							ctor: '::',
+							_0: _user$project$Web_View_CustomAttributes$role('main'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: mainRender,
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: _user$project$Web_View_LayoutView$renderFooter(params),
+						_1: {ctor: '[]'}
+					}
+				}
+			});
 	});
 
 var _user$project$Web$subscriptions = function (params) {
 	return _elm_lang$core$Platform_Sub$none;
 };
 var _user$project$Web$view = function (params) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: _user$project$Web_View_ViewHelper$currentPagePath(params.currentPagePath),
-			_1: {
-				ctor: '::',
-				_0: _user$project$Web_View_ViewHelper$allLinks,
-				_1: {
-					ctor: '::',
-					_0: _user$project$Web_View_ViewHelper$locationHistory(params.locationHistory),
-					_1: {
-						ctor: '::',
-						_0: _user$project$Web_View_ViewHelper$renderImg,
-						_1: {ctor: '[]'}
-					}
-				}
-			}
-		});
+	return A2(_user$project$Web_View_LayoutView$render, params, _user$project$Web_View_HelpersView$renderImg);
 };
 var _user$project$Web$update = F2(
 	function (msg, params) {

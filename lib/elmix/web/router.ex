@@ -16,7 +16,7 @@ defmodule Elmix.Web.Router do
   scope "/", Elmix.Web do
     pipe_through :browser # Use the default browser stack
 
-    get "/", PageController, :index
+    get "/page/*path", PageController, :index
   end
 
   # Other scopes may use custom stacks.
